@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://skmetaverse.space/sitemap.xml

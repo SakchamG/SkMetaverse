@@ -20,8 +20,47 @@ import { SnakeCursor } from "@/components/ui/SnakeCursor";
 import { CookieConsent } from "@/components/ui/CookieConsent";
 
 export const metadata: Metadata = {
-  title: "SkMetaverse - Premium Digital Agency",
-  description: "Building powerful digital experiences for startups and enterprises globally.",
+  metadataBase: new URL("https://skmetaverse.space"),
+  title: {
+    default: "SkMetaverse | AI, Web Development & Digital Innovation",
+    template: "%s | SkMetaverse",
+  },
+  description:
+    "SkMetaverse is a premium digital agency building AI solutions, futuristic websites, and innovative digital products for startups and enterprises worldwide.",
+  keywords: [
+    "SkMetaverse",
+    "AI development",
+    "web development",
+    "digital agency",
+    "startup technology",
+    "AI tools",
+    "Next.js development",
+    "software development",
+    "India tech startup",
+  ],
+  authors: [{ name: "Sakcham", url: "https://skmetaverse.space" }],
+  creator: "SkMetaverse",
+  publisher: "SkMetaverse",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "SkMetaverse - Premium Digital Agency",
+    description: "We build powerful AI tools, websites, and digital experiences for modern startups.",
+    url: "https://skmetaverse.space",
+    siteName: "SkMetaverse",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SkMetaverse - Premium Digital Agency",
+    description: "AI, Web Development and Digital Innovation for modern businesses.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
