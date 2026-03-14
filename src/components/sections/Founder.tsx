@@ -28,13 +28,13 @@ export function Founder() {
   }, []);
 
   return (
-    <section id="about" ref={containerRef} className="py-32 bg-background relative overflow-hidden">
+    <section id="about" ref={containerRef} className="py-20 md:py-32 bg-background relative overflow-hidden">
         {/* Abstract Background Shapes */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-b from-primary/10 to-transparent rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-t from-secondary/10 to-transparent rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center max-w-4xl mx-auto mb-20">
+        <div className="text-center max-w-4xl mx-auto mb-12 sm:mb-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -49,18 +49,18 @@ export function Founder() {
                 Visionary Leadership
             </div>
             
-            <h2 className="text-5xl md:text-7xl font-bold font-heading mb-8 leading-tight">
+            <h2 className="text-4xl sm:text-5xl md:text-7xl font-bold font-heading mb-8 leading-tight">
               Building the <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] via-[#D946EF] to-[#23CED9] dark:from-[#23CED9] dark:via-[#F472B6] dark:to-[#8B5CF6] drop-shadow-sm">Future of Digital.</span>
             </h2>
             
             <div className="relative mb-12">
-                <blockquote className="text-xl md:text-2xl text-foreground font-medium leading-relaxed px-8">
+                <blockquote className="text-lg sm:text-xl md:text-2xl text-foreground font-medium leading-relaxed px-4 sm:px-8">
                     &ldquo;SkMetaverse isn&apos;t just an agency; it&apos;s a launchpad for the next generation of unicorns. We bridge the gap between ambitious ideas and technical reality.&rdquo;
                 </blockquote>
             </div>
 
-            <div className="space-y-6 text-lg text-muted-foreground leading-relaxed mb-12">
+            <div className="space-y-6 text-base sm:text-lg text-muted-foreground leading-relaxed mb-12">
               <p>
                 We believe that every startup deserves world-class design and engineering. We&apos;re not just a service provider; we&apos;re your technical partner in growth, committed to turning your ambitious ideas into reality.
               </p>
@@ -71,26 +71,26 @@ export function Founder() {
             
             <div className="flex flex-wrap justify-center gap-8 md:gap-16">
                 <div className="text-center">
-                    <h4 className="text-4xl font-bold text-foreground drop-shadow-[0_0_22px_rgba(124,58,237,0.55)]">50+</h4>
+                    <h4 className="text-3xl sm:text-4xl font-bold text-foreground drop-shadow-[0_0_22px_rgba(124,58,237,0.55)]">50+</h4>
                     <p className="text-sm text-muted-foreground mt-1">Projects Delivered</p>
                 </div>
                 <div className="text-center">
-                    <h4 className="text-4xl font-bold text-foreground drop-shadow-[0_0_22px_rgba(217,70,239,0.55)]">98%</h4>
+                    <h4 className="text-3xl sm:text-4xl font-bold text-foreground drop-shadow-[0_0_22px_rgba(217,70,239,0.55)]">98%</h4>
                     <p className="text-sm text-muted-foreground mt-1">Client Retention</p>
                 </div>
                 <div className="text-center">
-                    <h4 className="text-4xl font-bold text-foreground drop-shadow-[0_0_22px_rgba(35,206,217,0.55)]">24/7</h4>
+                    <h4 className="text-3xl sm:text-4xl font-bold text-foreground drop-shadow-[0_0_22px_rgba(35,206,217,0.55)]">24/7</h4>
                     <p className="text-sm text-muted-foreground mt-1">Support</p>
                 </div>
             </div>
           </motion.div>
         </div>
 
-        <div className="mt-24">
-          <div className="flex items-end justify-between mb-8">
+        <div className="mt-14 sm:mt-24">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div>
               <span className="text-primary font-medium tracking-wider uppercase text-sm">Core Team</span>
-              <h3 className="text-3xl md:text-5xl font-bold font-heading mt-2">Meet the People</h3>
+              <h3 className="text-2xl sm:text-3xl md:text-5xl font-bold font-heading mt-2">Meet the People</h3>
             </div>
             <div className="flex gap-3">
               <button

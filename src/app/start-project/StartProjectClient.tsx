@@ -6,23 +6,10 @@
  import { Button } from "@/components/ui/Button";
  import { Input } from "@/components/ui/Input";
  import { Textarea } from "@/components/ui/Textarea";
- import { Code, Smartphone, Palette, Cpu, TrendingUp, Briefcase, ArrowRight, Check, Video, Camera, Zap, Phone } from "lucide-react";
+ import { ArrowRight, Check } from "lucide-react";
  import { useRouter, useSearchParams } from "next/navigation";
  import Link from "next/link";
- 
- const services = [
-   { id: "web", icon: Code, title: "Web Development", desc: "Next.js & React websites" },
-   { id: "mobile", icon: Smartphone, title: "Mobile Apps", desc: "iOS & Android apps" },
-   { id: "uiux", icon: Palette, title: "UI/UX Design", desc: "Product design" },
-   { id: "ai", icon: Cpu, title: "AI Integration", desc: "OpenAI & automation" },
-   { id: "hotel-ai", icon: Phone, title: "Hotel AI Integration", desc: "AI call agents & booking automation" },
-   { id: "marketing", icon: TrendingUp, title: "Digital Marketing", desc: "Marketing & SEO" },
-   { id: "consulting", icon: Briefcase, title: "Consulting", desc: "Strategy & MVP" },
-   { id: "scaling", icon: Zap, title: "Business Scaling", desc: "From scratch to next level" },
-   { id: "ai-animation", icon: Video, title: "AI Animation", desc: "Motion graphics & visuals" },
-   { id: "video-editing", icon: Camera, title: "Video Editing", desc: "Professional editing" },
-   { id: "photo-editing", icon: Camera, title: "Photo Editing", desc: "Retouching & grading" },
- ];
+ import { startProjectServices } from "@/content/services";
  
  export default function StartProjectClient() {
    const router = useRouter();
@@ -31,7 +18,7 @@
    const preselectedServices = useMemo(() => {
      const raw = searchParams.get("service") || searchParams.get("services");
      if (!raw) return [] as string[];
-     const valid = new Set(services.map((s) => s.id));
+     const valid = new Set(startProjectServices.map((s) => s.id));
      return raw
        .split(",")
        .map((s) => s.trim())
@@ -118,8 +105,8 @@
          >
            {step === 1 ? (
              <div className="space-y-8">
-               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                 {services.map((service) => (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {startProjectServices.map((service) => (
                    <Card
                      key={service.id}
                      onClick={() => toggleService(service.id)}

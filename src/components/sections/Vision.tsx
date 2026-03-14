@@ -52,21 +52,21 @@ export function Vision() {
   ];
 
   return (
-    <section id="vision" className="py-28 bg-background relative overflow-hidden">
+    <section id="vision" className="py-20 md:py-28 bg-background relative overflow-hidden">
       {/* Background glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[60vw] h-[60vw] rounded-full bg-gradient-to-b from-primary/10 to-transparent blur-3xl" />
         <div className="absolute bottom-0 right-0 w-[40vw] h-[40vw] rounded-full bg-secondary/10 blur-2xl" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className="text-center mb-12 sm:mb-20"
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
             <span className="relative flex h-2 w-2">
@@ -76,11 +76,11 @@ export function Vision() {
             Our Vision
           </div>
 
-          <h2 className="text-4xl md:text-5xl font-bold font-heading tracking-tight mb-5">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-heading tracking-tight mb-5">
             Designing The Future Of Digital Experiences
           </h2>
 
-          <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed text-lg">
+          <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed text-base sm:text-lg">
             At <span className="text-foreground font-medium">SK Metaverse</span>,
             our mission is to empower ambitious companies with elegant digital
             products, scalable technology, and AI-driven innovation that create
@@ -89,7 +89,7 @@ export function Vision() {
         </motion.div>
 
         {/* Vision pillars */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {pillars.map((p, i) => (
             <motion.div
               key={p.title}
@@ -100,7 +100,7 @@ export function Vision() {
             >
               <div className="relative h-full group">
                 <div className="absolute -inset-1 rounded-[28px] bg-gradient-to-r from-[#7C3AED]/25 via-[#D946EF]/20 to-[#23CED9]/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <Card className="relative h-full p-7 bg-card/80 border-border hover:border-primary/40 hover:shadow-[0_0_30px_rgba(124,58,237,0.15)] transition-all duration-300">
+                <Card className="relative h-full p-6 sm:p-7 bg-card/80 border-border hover:border-primary/40 hover:shadow-[0_0_30px_rgba(124,58,237,0.15)] transition-all duration-300">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-11 h-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
                       <p.icon size={20} />
@@ -126,11 +126,11 @@ export function Vision() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mt-20 grid grid-cols-1 lg:grid-cols-3 gap-10 items-center"
+          className="mt-14 sm:mt-20 grid grid-cols-1 lg:grid-cols-3 gap-10 items-center"
         >
           <div className="lg:col-span-2">
-            <Card className="p-10 bg-gradient-to-br from-purple-500/10 via-violet-500/10 to-indigo-500/10 border-border">
-              <p className="text-xl md:text-2xl font-medium leading-relaxed">
+            <Card className="p-7 sm:p-10 bg-gradient-to-br from-purple-500/10 via-violet-500/10 to-indigo-500/10 border-border">
+              <p className="text-lg sm:text-xl md:text-2xl font-medium leading-relaxed">
                 We believe the best products feel inevitable — thoughtfully
                 designed, technically excellent, and laser-focused on solving
                 real problems for real people. That’s the standard we hold for
@@ -140,7 +140,7 @@ export function Vision() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-6 text-center">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
             <div>
               <h4 className="text-3xl font-bold text-foreground drop-shadow-[0_0_18px_rgba(124,58,237,0.55)]">
                 50+
