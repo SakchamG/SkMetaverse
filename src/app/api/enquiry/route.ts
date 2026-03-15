@@ -1,5 +1,7 @@
  import crypto from "crypto";
  import { NextResponse } from "next/server";
+ import { rateLimit } from "@/lib/rateLimit";
+ import { getClientIp, isApiKeyValid, isOriginAllowed, validateEnquiryPayload, verifyTurnstile } from "@/lib/enquirySecurity";
  
  export const runtime = "nodejs";
  
@@ -110,41 +112,71 @@ function normalizePrivateKey(input: string) {
  
  export async function POST(req: Request) {
    try {
-     const payload = (await req.json().catch(() => null)) as
-       | null
-       | {
-           source?: string;
-           name?: string;
-           email?: string;
-           phone?: string;
-           company?: string;
-           currency?: string;
-           budget?: string;
-           timeline?: string;
-           location?: string;
-           services?: string[] | string;
-           details?: string;
-         };
+     const ip = getClientIp(req.headers);
  
-     if (!payload || typeof payload !== "object") {
-       return NextResponse.json({ ok: false, error: "Invalid JSON" }, { status: 400 });
+     const minute = rateLimit(`enquiry:${ip}:m`, 10, 60_000);
+     if (!minute.allowed) {
+       const retryAfter = Math.max(1, Math.ceil((minute.resetAt - Date.now()) / 1000));
+       return NextResponse.json(
+         { ok: false, error: "Too many requests. Please try again shortly." },
+         { status: 429, headers: { "Retry-After": String(retryAfter) } }
+       );
+     }
+ 
+     const hour = rateLimit(`enquiry:${ip}:h`, 100, 60 * 60_000);
+     if (!hour.allowed) {
+       const retryAfter = Math.max(1, Math.ceil((hour.resetAt - Date.now()) / 1000));
+       return NextResponse.json(
+         { ok: false, error: "Too many requests. Please try again later." },
+         { status: 429, headers: { "Retry-After": String(retryAfter) } }
+       );
+     }
+ 
+     if (!isOriginAllowed(req.headers)) {
+       return NextResponse.json({ ok: false, error: "Forbidden" }, { status: 403 });
+     }
+ 
+     const apiKeyStatus = isApiKeyValid(req.headers);
+     if (apiKeyStatus.enabled && !apiKeyStatus.ok) {
+       return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
+     }
+ 
+     const contentType = req.headers.get("content-type") || "";
+     if (!contentType.toLowerCase().includes("application/json")) {
+       return NextResponse.json({ ok: false, error: "Invalid content type" }, { status: 415 });
+     }
+ 
+     const rawBody = await req.text();
+     if (rawBody.length > 30_000) {
+       return NextResponse.json({ ok: false, error: "Payload too large" }, { status: 413 });
+     }
+ 
+     const payloadJson = JSON.parse(rawBody) as unknown;
+     const validated = validateEnquiryPayload(payloadJson);
+     if (!validated.ok) {
+       return NextResponse.json({ ok: false, error: validated.error }, { status: 400 });
+     }
+ 
+     const captcha = await verifyTurnstile(validated.value.captchaToken, ip);
+     if (captcha.enabled && !captcha.ok) {
+       return NextResponse.json({ ok: false, error: captcha.error || "Captcha failed" }, { status: 400 });
      }
  
      const createdAt = new Date().toISOString();
  
      const row = [
        createdAt,
-       payload.source || "unknown",
-       payload.name || "",
-       payload.email || "",
-       payload.phone || "",
-       payload.company || "",
-       payload.currency || "",
-       payload.budget || "",
-       payload.timeline || "",
-       payload.location || "",
-       Array.isArray(payload.services) ? payload.services.join(", ") : payload.services || "",
-       payload.details || "",
+       validated.value.source,
+       validated.value.name,
+       validated.value.email,
+       validated.value.phone,
+       validated.value.company,
+       validated.value.currency,
+       validated.value.budget,
+       validated.value.timeline,
+       validated.value.location,
+       validated.value.services.join(", "),
+       validated.value.details,
      ];
  
      await appendToSheet(row);

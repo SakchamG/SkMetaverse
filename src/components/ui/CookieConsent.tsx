@@ -42,7 +42,7 @@
  
    return (
      <div className="fixed bottom-4 left-4 right-4 z-[70]">
-       <div className="mx-auto max-w-3xl rounded-2xl border border-white/10 bg-background/90 backdrop-blur-md shadow-lg p-4 sm:p-5">
+       <div className="mx-auto max-w-3xl rounded-2xl border border-white/10 bg-background/90 backdrop-blur-none sm:backdrop-blur-md shadow-lg p-4 sm:p-5">
          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
            <div className="text-sm text-muted-foreground">
              We use cookies to improve your experience, analyze traffic, and personalize content. 

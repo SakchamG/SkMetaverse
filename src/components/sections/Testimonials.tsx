@@ -62,7 +62,7 @@ export function Testimonials() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: false, margin: "-50px" }}
               whileHover={{ y: -10 }}
-              className="relative p-6 sm:p-8 rounded-3xl bg-white/5 backdrop-blur-md border border-white/10 shadow-xl group hover:bg-white/10 transition-colors"
+              className="relative p-6 sm:p-8 rounded-3xl bg-white/5 backdrop-blur-none sm:backdrop-blur-md border border-white/10 shadow-xl group hover:bg-white/10 transition-colors"
             >
               <Quote className="absolute top-8 right-8 text-primary/20 w-12 h-12 group-hover:text-primary/40 transition-colors" />
               

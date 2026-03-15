@@ -7,9 +7,11 @@ import { Textarea } from "@/components/ui/Textarea";
 import { Card } from "@/components/ui/Card";
 import { Mail, Phone, MapPin, Calendar, Send } from "lucide-react";
 import { useState } from "react";
+import { Turnstile } from "@/components/ui/Turnstile";
 
 export function Contact() {
   const [submitting, setSubmitting] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,6 +23,11 @@ export function Contact() {
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
+    const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+    if (siteKey && !captchaToken) {
+      alert("Please complete the captcha.");
+      return;
+    }
     setSubmitting(true);
     fetch("/api/enquiry", {
       method: "POST",
@@ -32,6 +39,7 @@ export function Contact() {
         company: formData.company,
         budget: formData.budget,
         details: `Project Type: ${formData.projectType}\nMessage: ${formData.message}`,
+        captchaToken,
       }),
     })
       .then(async (r) => {
@@ -40,6 +48,7 @@ export function Contact() {
           throw new Error(j?.error || "Failed to submit enquiry");
         }
         setFormData({ name: "", email: "", company: "", projectType: "", budget: "", message: "" });
+        setCaptchaToken("");
         alert("Message sent! We'll get back to you soon.");
       })
       .catch(() => {
@@ -184,6 +193,12 @@ export function Contact() {
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   />
                 </div>
+                {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ? (
+                  <Turnstile
+                    siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+                    onToken={setCaptchaToken}
+                  />
+                ) : null}
                 <Button variant="glow" className="w-full" size="lg" type="submit" disabled={submitting}>
                   {submitting ? "Sending..." : "Send Message"}
                   <Send className="ml-2 w-4 h-4" />

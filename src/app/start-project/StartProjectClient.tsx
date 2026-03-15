@@ -10,6 +10,7 @@
  import { useRouter, useSearchParams } from "next/navigation";
  import Link from "next/link";
  import { startProjectServices } from "@/content/services";
+ import { Turnstile } from "@/components/ui/Turnstile";
  
  export default function StartProjectClient() {
    const router = useRouter();
@@ -27,6 +28,7 @@
    const [selectedServices, setSelectedServices] = useState<string[] | null>(null);
    const effectiveSelectedServices = selectedServices ?? preselectedServices;
    const [submitting, setSubmitting] = useState(false);
+   const [captchaToken, setCaptchaToken] = useState("");
    const [formData, setFormData] = useState({
      name: "",
      email: "",
@@ -49,6 +51,11 @@
  
    const handleSubmit = (e: React.FormEvent) => {
      e.preventDefault();
+     const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+     if (siteKey && !captchaToken) {
+       alert("Please complete the captcha.");
+       return;
+     }
      setSubmitting(true);
      fetch("/api/enquiry", {
        method: "POST",
@@ -57,6 +64,7 @@
          source: "start-project",
          services: effectiveSelectedServices,
          ...formData,
+         captchaToken,
        }),
      })
        .then(async (r) => {
@@ -70,7 +78,10 @@
        .catch(() => {
          alert("Could not submit right now. Please try again or use Call/WhatsApp.");
        })
-       .finally(() => setSubmitting(false));
+       .finally(() => {
+         setSubmitting(false);
+         setCaptchaToken("");
+       });
    };
  
    return (
@@ -273,6 +284,12 @@
                      onChange={(e) => setFormData({ ...formData, details: e.target.value })}
                    />
                  </div>
+               {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ? (
+                 <Turnstile
+                   siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+                   onToken={setCaptchaToken}
+                 />
+               ) : null}
                </Card>
  
                <div className="flex flex-col sm:flex-row gap-4 justify-between">

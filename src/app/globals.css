@@ -206,3 +206,37 @@ body {
   overflow: hidden;
   z-index: 2;
 }
+
+@media (hover: none) and (pointer: coarse) {
+  .neon-card::before {
+    animation: none !important;
+  }
+
+  .animate-ping,
+  .animate-pulse,
+  .animate-bounce,
+  .animate-spin,
+  .animate-gradient {
+    animation: none !important;
+  }
+
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
+  .backdrop-blur-lg,
+  .backdrop-blur-xl,
+  .backdrop-blur-2xl,
+  .backdrop-blur-3xl {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .blur-sm,
+  .blur,
+  .blur-md,
+  .blur-lg,
+  .blur-xl,
+  .blur-2xl,
+  .blur-3xl {
+    filter: none !important;
+  }
+}

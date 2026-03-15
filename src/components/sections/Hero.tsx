@@ -16,6 +16,10 @@ export function Hero() {
   });
 
   useEffect(() => {
+    const isCoarse = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+    if (isCoarse) {
+      return;
+    }
     const fullText1 = "Building Digital ";
     const fullText2 = "Experiences";
     const fullText3 = " That ";
@@ -102,7 +106,7 @@ export function Hero() {
       onMouseMove={handleMouseMove}
     >
       {/* 1. Video/Gradient Layer (Revealed by Spotlight) - Default Hidden */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden hidden sm:block">
         {/* Shared Video Background */}
         <video
           autoPlay
@@ -157,9 +161,14 @@ export function Hero() {
         </div>
       </div>
 
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden sm:hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-background to-background" />
+        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.02]" />
+      </div>
+
       {/* 2. Solid Overlay Layer (Masked by Cursor to Reveal Background) - DARK MODE ONLY */}
       <motion.div
-        className="absolute inset-0 z-10 bg-background pointer-events-none hidden dark:block"
+        className="absolute inset-0 z-10 bg-background pointer-events-none hidden sm:block dark:block"
         style={{
           maskImage: useMotionTemplate`radial-gradient(800px circle at ${smoothMouseX}px ${smoothMouseY}px, transparent 0%, transparent 38%, rgba(0,0,0,0.4) 39%, black 41%)`,
           WebkitMaskImage: useMotionTemplate`radial-gradient(800px circle at ${smoothMouseX}px ${smoothMouseY}px, transparent 0%, transparent 38%, rgba(0,0,0,0.4) 39%, black 41%)`,
@@ -172,7 +181,7 @@ export function Hero() {
 
       {/* 3D Inner Lens Effect Layer (Follows cursor, adds spherical edge inner shine) - DARK MODE */}
       <motion.div
-        className="absolute inset-0 z-[11] shadow-[inset_0_0_80px_rgba(255,255,255,0.2)] rounded-full pointer-events-none hidden dark:block mix-blend-overlay opacity-30"
+        className="absolute inset-0 z-[11] shadow-[inset_0_0_80px_rgba(255,255,255,0.2)] rounded-full pointer-events-none hidden sm:block dark:block mix-blend-overlay opacity-30"
         style={{
           left: useMotionTemplate`calc(${smoothMouseX}px - 320px)`,
           top: useMotionTemplate`calc(${smoothMouseY}px - 320px)`,
@@ -185,7 +194,7 @@ export function Hero() {
 
       {/* 2b. Solid Overlay Layer for LIGHT MODE (masked spotlight, softer) */}
       <motion.div
-        className="absolute inset-0 z-10 pointer-events-none block dark:hidden"
+        className="absolute inset-0 z-10 pointer-events-none hidden sm:block dark:hidden"
         style={{
           backgroundColor: "rgba(255,255,255,0.85)",
           maskImage: useMotionTemplate`radial-gradient(800px circle at ${smoothMouseX}px ${smoothMouseY}px, transparent 0%, transparent 38%, rgba(0,0,0,0.2) 39%, black 41%)`,
@@ -196,7 +205,7 @@ export function Hero() {
       
       {/* 3D Inner Lens Effect Layer - LIGHT MODE */}
       <motion.div
-        className="absolute z-[11] shadow-[inset_0_0_60px_rgba(0,0,0,0.15)] rounded-full pointer-events-none block dark:hidden"
+        className="absolute z-[11] shadow-[inset_0_0_60px_rgba(0,0,0,0.15)] rounded-full pointer-events-none hidden sm:block dark:hidden"
         style={{
           left: useMotionTemplate`calc(${smoothMouseX}px - 320px)`,
           top: useMotionTemplate`calc(${smoothMouseY}px - 320px)`,
@@ -219,7 +228,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 2.4, duration: 0.8 }}
-            className="relative inline-flex overflow-hidden py-1 px-4 rounded-full bg-gradient-to-r from-slate-100 via-slate-200 to-slate-100 dark:bg-none dark:bg-black/80 border border-slate-300 dark:border-white/10 text-sm font-medium text-slate-700 dark:text-white mb-6 backdrop-blur-sm shadow-[0_0_20px_rgba(148,163,184,0.6)] dark:shadow-[0_0_20px_rgba(0,0,0,0.8)] group"
+            className="relative inline-flex overflow-hidden py-1 px-4 rounded-full bg-gradient-to-r from-slate-100 via-slate-200 to-slate-100 dark:bg-none dark:bg-black/80 border border-slate-300 dark:border-white/10 text-sm font-medium text-slate-700 dark:text-white mb-6 backdrop-blur-sm shadow-[0_0_20px_rgba(148,163,184,0.6)] dark:shadow-[0_0_20px_rgba(0,0,0,0.8)] group hidden sm:inline-flex"
           >
             <span className="relative z-10 flex items-center gap-2">✨ Transforming Ideas into Digital Reality</span>
             <motion.div
@@ -229,7 +238,11 @@ export function Hero() {
             />
           </motion.div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold font-heading tracking-tight mb-8 leading-tight min-h-[160px] sm:min-h-[140px] md:min-h-[220px]">
+          <div className="relative inline-flex overflow-hidden py-1 px-4 rounded-full bg-black/20 border border-white/10 text-sm font-medium text-foreground mb-6 sm:hidden">
+            <span className="relative z-10 flex items-center gap-2">✨ Transforming Ideas into Digital Reality</span>
+          </div>
+
+          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold font-heading tracking-tight mb-8 leading-tight min-h-[160px] sm:min-h-[140px] md:min-h-[220px] hidden sm:block">
             <span>
               {typingState.text1}
               {typingState.activeSegment === 1 && <Cursor />}
@@ -249,6 +262,14 @@ export function Hero() {
               {typingState.activeSegment === 4 && <Cursor />}
             </span>
             {typingState.activeSegment === 5 && <Cursor />}
+          </h1>
+
+          <h1 className="text-4xl font-bold font-heading tracking-tight mb-8 leading-tight sm:hidden">
+            Building Digital{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D946EF] via-[#8B5CF6] to-[#7C3AED] dark:from-[#23CED9] dark:via-[#F472B6] dark:to-[#8B5CF6]">
+              Experiences
+            </span>{" "}
+            That Power the Future
           </h1>
 
           <motion.p

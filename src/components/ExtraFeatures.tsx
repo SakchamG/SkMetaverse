@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/Input";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function ExtraFeatures() {
+  const [desktopOnly, setDesktopOnly] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -14,6 +15,14 @@ export function ExtraFeatures() {
     { role: "assistant", text: "Hello! I'm SkMetaverse Assistant. Ask me about services, pricing, tech stack, timelines, or start a project. For anything else, I can share our contact info." },
   ]);
   const scrollerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const apply = () => setDesktopOnly(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
   useEffect(() => {
     scrollerRef.current?.scrollTo({ top: scrollerRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, showChat]);
@@ -67,6 +76,21 @@ export function ExtraFeatures() {
     return () => window.removeEventListener('click', handleInteraction);
   }, []);
   */
+
+  if (!desktopOnly) {
+    return (
+      <div className="fixed bottom-6 right-6 z-50">
+        <a href="/start-project">
+          <Button
+            size="lg"
+            className="h-12 px-5 rounded-full shadow-lg bg-gradient-to-br from-primary to-secondary border border-white/10"
+          >
+            Start Project
+          </Button>
+        </a>
+      </div>
+    );
+  }
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4">

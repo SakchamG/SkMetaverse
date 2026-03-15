@@ -18,6 +18,7 @@ import { Footer } from "@/components/layout/Footer";
 import { ExtraFeatures } from "@/components/ExtraFeatures";
 import { SnakeCursor } from "@/components/ui/SnakeCursor";
 import { CookieConsent } from "@/components/ui/CookieConsent";
+import { MotionProvider } from "@/components/MotionProvider";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://skmetaverse.space"),
@@ -75,13 +76,15 @@ export default function RootLayout({
       >
         <SnakeCursor />
         <Providers>
-          <Navbar />
-          <main className="min-h-screen relative z-10">
-            {children}
-          </main>
-          <CookieConsent />
-          <Footer />
-          <ExtraFeatures />
+          <MotionProvider>
+            <Navbar />
+            <main className="min-h-screen relative z-10">
+              {children}
+            </main>
+            <CookieConsent />
+            <Footer />
+            <ExtraFeatures />
+          </MotionProvider>
         </Providers>
       </body>
     </html>
