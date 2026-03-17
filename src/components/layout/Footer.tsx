@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Twitter, Instagram, Linkedin, Github } from "lucide-react";
+import { servicesCatalog } from "@/content/services";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -38,10 +39,13 @@ export function Footer() {
           <div>
             <h3 className="font-heading font-semibold text-lg mb-4">Services</h3>
             <ul className="space-y-3">
-              {["Web Development", "Mobile App Development", "UI/UX Design", "AI Integration", "Digital Marketing", "MVP Development"].map((item) => (
-                <li key={item}>
-                  <Link href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                    {item}
+              {servicesCatalog.slice(0, 6).map((service) => (
+                <li key={service.id}>
+                  <Link
+                    href={`/start-project?service=${service.id}`}
+                    className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                  >
+                    {service.title}
                   </Link>
                 </li>
               ))}

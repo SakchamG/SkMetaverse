@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Linkedin, Twitter, Mail } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { teamMembers } from "@/content/team";
+import { Card } from "@/components/ui/Card";
 
 export function Founder() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -13,12 +14,20 @@ export function Founder() {
   const [base, setBase] = useState(0);
   const [paused, setPaused] = useState(false);
   const [selected, setSelected] = useState<typeof teamMembers[number] | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
   const next = () => setBase((b) => (b + 1) % team.length);
   useEffect(() => {
-    if (paused) return;
+    const mq = window.matchMedia("(hover: none) and (pointer: coarse)");
+    const apply = () => setIsMobile(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+  useEffect(() => {
+    if (paused || isMobile) return;
     const id = setInterval(() => setBase((b) => (b + 1) % team.length), 3500);
     return () => clearInterval(id);
-  }, [paused, team.length]);
+  }, [paused, isMobile, team.length]);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setSelected(null);
@@ -92,7 +101,7 @@ export function Founder() {
               <span className="text-primary font-medium tracking-wider uppercase text-sm">Core Team</span>
               <h3 className="text-2xl sm:text-3xl md:text-5xl font-bold font-heading mt-2">Meet the People</h3>
             </div>
-            <div className="flex gap-3">
+            <div className="hidden sm:flex gap-3">
               <button
                 onClick={() => setPaused((p) => !p)}
                 className="h-10 px-4 rounded-full border border-border hover:bg-primary/10 transition text-sm"
@@ -110,7 +119,7 @@ export function Founder() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="hidden sm:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[0,1,2].map((col) => {
               const m = team[(base + col) % team.length];
               return (
@@ -141,6 +150,31 @@ export function Founder() {
                 </motion.div>
               );
             })}
+          </div>
+          <div className="sm:hidden grid grid-cols-2 gap-4">
+            {team.map((m, i) => (
+              <motion.div
+                key={m.name}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.32, delay: i * 0.03 }}
+              >
+                <Card
+                  className="overflow-hidden border border-border bg-card/80 cursor-pointer"
+                  onClick={() => setSelected(m)}
+                >
+                  <div className="relative w-full aspect-[4/5]">
+                    <Image src={m.imageSrc} alt={m.name} fill className="object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+                    <div className="absolute bottom-3 left-3 right-3 text-white">
+                      <div className="text-sm font-bold leading-tight">{m.name}</div>
+                      <div className="text-[11px] text-white/80 leading-snug">{m.role}</div>
+                    </div>
+                  </div>
+                </Card>
+              </motion.div>
+            ))}
           </div>
           {selected && (
             <motion.div

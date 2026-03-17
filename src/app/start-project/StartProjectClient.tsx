@@ -29,6 +29,7 @@
    const effectiveSelectedServices = selectedServices ?? preselectedServices;
    const [submitting, setSubmitting] = useState(false);
    const [captchaToken, setCaptchaToken] = useState("");
+  const [supportAction, setSupportAction] = useState<"call" | "whatsapp" | null>(null);
    const [formData, setFormData] = useState({
      name: "",
      email: "",
@@ -49,6 +50,14 @@
      });
    };
  
+  const supportLinks = {
+    call: { label: "Call Now", href: "tel:+918095151212" },
+    whatsapp: {
+      label: "WhatsApp",
+      href: "https://wa.me/15551234567?text=Hi%20SkMetaverse%2C%20I%20want%20to%20start%20a%20project",
+    },
+  } as const;
+
    const handleSubmit = (e: React.FormEvent) => {
      e.preventDefault();
      const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
@@ -164,6 +173,7 @@
                    <div className="space-y-2">
                      <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Name</label>
                      <Input
+                      id="start-project-name"
                        required
                        placeholder="Your Name"
                        value={formData.name}
@@ -318,12 +328,26 @@
                      Connect now to get instant support and help.
                    </div>
                    <div className="flex flex-wrap gap-3">
-                     <a href="tel:+918095151212">
-                       <Button variant="outline" size="sm">Call Now</Button>
-                     </a>
-                     <a href="https://wa.me/15551234567?text=Hi%20SkMetaverse%2C%20I%20want%20to%20start%20a%20project" target="_blank" rel="noopener">
-                       <Button variant="glow" size="sm">WhatsApp</Button>
-                     </a>
+                    <a
+                      href={supportLinks.call.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setSupportAction("call");
+                      }}
+                    >
+                      <Button variant="outline" size="sm">Call Now</Button>
+                    </a>
+                    <a
+                      href={supportLinks.whatsapp.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setSupportAction("whatsapp");
+                      }}
+                    >
+                      <Button variant="glow" size="sm">WhatsApp</Button>
+                    </a>
                      <Link href="/#contact">
                        <Button variant="link" size="sm" className="text-primary">Contact Form</Button>
                      </Link>
@@ -336,6 +360,47 @@
              </form>
            )}
          </motion.div>
+        {supportAction ? (
+          <div
+            className="fixed inset-0 z-[80] bg-black/60 flex items-center justify-center px-4"
+            onClick={() => setSupportAction(null)}
+          >
+            <div onClick={(e) => e.stopPropagation()} className="w-full max-w-md">
+              <Card className="p-6 border-border bg-background">
+                <div className="text-lg font-heading font-bold">Before you continue</div>
+                <div className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                  Please fill the form and submit your request. Our team will contact you as soon as possible.
+                </div>
+                <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-end">
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setSupportAction(null);
+                      document.getElementById("start-project-name")?.scrollIntoView({ behavior: "smooth", block: "center" });
+                      setTimeout(() => document.getElementById("start-project-name")?.focus(), 250);
+                    }}
+                  >
+                    Fill Form
+                  </Button>
+                  <Button
+                    variant="gradient"
+                    onClick={() => {
+                      const href = supportLinks[supportAction].href;
+                      if (supportAction === "call") {
+                        window.location.href = href;
+                      } else {
+                        window.open(href, "_blank", "noopener,noreferrer");
+                      }
+                      setSupportAction(null);
+                    }}
+                  >
+                    Continue to {supportLinks[supportAction].label}
+                  </Button>
+                </div>
+              </Card>
+            </div>
+          </div>
+        ) : null}
        </div>
      </div>
    );
