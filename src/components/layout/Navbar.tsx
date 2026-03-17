@@ -22,11 +22,10 @@ export function Navbar() {
   }, []);
 
   const links = [
-    { name: "Services", href: "/start-project" },
-    { name: "Portfolio", href: "#portfolio" },
-    { name: "Process", href: "#process" },
-    { name: "About", href: "#about" },
-    { name: "Vision", href: "#vision" },
+    { name: "Services", href: "/services" },
+    { name: "Projects", href: "/projects" },
+    { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" },
   ];
 
   return (

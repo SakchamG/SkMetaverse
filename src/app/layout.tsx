@@ -23,21 +23,17 @@ import { MotionProvider } from "@/components/MotionProvider";
 export const metadata: Metadata = {
   metadataBase: new URL("https://skmetaverse.space"),
   title: {
-    default: "SkMetaverse | AI, Web Development & Digital Innovation",
+    default: "SkMetaverse | Futuristic AI & Web Solutions",
     template: "%s | SkMetaverse",
   },
   description:
-    "SkMetaverse is a premium digital agency building AI solutions, futuristic websites, and innovative digital products for startups and enterprises worldwide.",
+    "SkMetaverse builds futuristic websites, AI tools, and digital experiences. Explore next-gen design, development, and innovation.",
   keywords: [
-    "SkMetaverse",
-    "AI development",
+    "AI website",
     "web development",
-    "digital agency",
-    "startup technology",
-    "AI tools",
-    "Next.js development",
-    "software development",
-    "India tech startup",
+    "futuristic UI",
+    "metaverse",
+    "Next.js developer",
   ],
   authors: [{ name: "Sakcham", url: "https://skmetaverse.space" }],
   creator: "SkMetaverse",
@@ -47,16 +43,24 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "SkMetaverse - Premium Digital Agency",
-    description: "We build powerful AI tools, websites, and digital experiences for modern startups.",
+    description: "Futuristic AI-powered digital experiences.",
     url: "https://skmetaverse.space",
     siteName: "SkMetaverse",
+    images: [
+      {
+        url: "https://skmetaverse.space/og.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
     title: "SkMetaverse - Premium Digital Agency",
-    description: "AI, Web Development and Digital Innovation for modern businesses.",
+    description: "Futuristic AI-powered digital experiences.",
+    images: ["https://skmetaverse.space/og.png"],
   },
   robots: {
     index: true,
@@ -69,8 +73,20 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const orgJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "SkMetaverse",
+    url: "https://skmetaverse.space",
+    logo: "https://skmetaverse.space/logo.png",
+    sameAs: [],
+  };
+
   return (
     <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
+      <head>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
+      </head>
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased bg-background text-foreground selection:bg-primary/30`}
       >
