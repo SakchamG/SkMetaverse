@@ -242,7 +242,14 @@ export function Hero() {
             <span className="relative z-10 flex items-center gap-2">✨ Transforming Ideas into Digital Reality</span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold font-heading tracking-tight mb-8 leading-tight min-h-[160px] sm:min-h-[140px] md:min-h-[220px] hidden sm:block">
+          <h1 className="text-3xl sm:text-4xl font-bold font-heading tracking-tight mb-2">
+            SkMetaverse - AI & Web Development Company
+          </h1>
+          <p className="text-sm sm:text-base text-muted-foreground mb-7">
+            Official website of SkMetaverse
+          </p>
+
+          <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold font-heading tracking-tight mb-8 leading-tight min-h-[160px] sm:min-h-[140px] md:min-h-[220px] hidden sm:block">
             <span>
               {typingState.text1}
               {typingState.activeSegment === 1 && <Cursor />}
@@ -262,15 +269,15 @@ export function Hero() {
               {typingState.activeSegment === 4 && <Cursor />}
             </span>
             {typingState.activeSegment === 5 && <Cursor />}
-          </h1>
+          </h2>
 
-          <h1 className="text-4xl font-bold font-heading tracking-tight mb-8 leading-tight sm:hidden">
+          <h2 className="text-4xl font-bold font-heading tracking-tight mb-8 leading-tight sm:hidden">
             Building Digital{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D946EF] via-[#8B5CF6] to-[#7C3AED] dark:from-[#23CED9] dark:via-[#F472B6] dark:to-[#8B5CF6]">
               Experiences
             </span>{" "}
             That Power the Future
-          </h1>
+          </h2>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}

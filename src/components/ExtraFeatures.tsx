@@ -5,14 +5,17 @@ import { MessageSquare, X, Send } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { motion, AnimatePresence } from "framer-motion";
+import { siteConfig } from "@/content/site";
+import { usePathname } from "next/navigation";
 
 export function ExtraFeatures() {
+  const pathname = usePathname();
   const [desktopOnly, setDesktopOnly] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState<Array<{ role: "assistant" | "user"; text: string }>>([
-    { role: "assistant", text: "Hello! I'm SkMetaverse Assistant. Ask me about services, pricing, tech stack, timelines, or start a project. For anything else, I can share our contact info." },
+    { role: "assistant", text: "Hello! I'm SkMetaverse Assistant. Ask me about services, pricing, tech stack, timelines, or start a project. For contact, please fill the Contact/Start Project form and our team will reach out." },
   ]);
   const scrollerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -29,7 +32,7 @@ export function ExtraFeatures() {
   
   function classifyAndReply(q: string): string {
     const query = q.toLowerCase();
-    const contactInfo = "You can reach us at contact@skmetaverse.com or +1 (555) 123-4567. You can also use the Contact section on this site.";
+    const contactInfo = "Please connect by filling the Contact form or Start Project form on this site. Our team will reach out as soon as possible.";
     const linkStart = "To get started, open Start Project (top right) or go to /start-project.";
     if (/(start|project|quote|estimate|build|begin)/.test(query)) {
       return `Great! ${linkStart} Share your goals, features, and timeline—our team will respond quickly.`;
@@ -78,6 +81,7 @@ export function ExtraFeatures() {
   */
 
   if (!desktopOnly) {
+    if (pathname === "/start-project" || pathname === "/contact") return null;
     return (
       <div className="fixed bottom-6 right-6 z-50">
         <a href="/start-project">

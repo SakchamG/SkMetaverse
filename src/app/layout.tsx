@@ -19,15 +19,16 @@ import { ExtraFeatures } from "@/components/ExtraFeatures";
 import { SnakeCursor } from "@/components/ui/SnakeCursor";
 import { CookieConsent } from "@/components/ui/CookieConsent";
 import { MotionProvider } from "@/components/MotionProvider";
+import { siteConfig } from "@/content/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://skmetaverse.space"),
   title: {
-    default: "SkMetaverse | Futuristic AI & Web Solutions",
+    default: "SkMetaverse | AI & Web Development Company",
     template: "%s | SkMetaverse",
   },
   description:
-    "SkMetaverse builds futuristic websites, AI tools, and digital experiences. Explore next-gen design, development, and innovation.",
+    "Official website of SkMetaverse — an AI & web development company building futuristic websites, AI tools, and digital experiences.",
   keywords: [
     "AI website",
     "web development",
@@ -42,8 +43,8 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "SkMetaverse - Premium Digital Agency",
-    description: "Futuristic AI-powered digital experiences.",
+    title: "SkMetaverse | AI & Web Development Company",
+    description: "Official SkMetaverse website for AI tools, web development, and futuristic digital experiences.",
     url: "https://skmetaverse.space",
     siteName: "SkMetaverse",
     images: [
@@ -58,8 +59,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "SkMetaverse - Premium Digital Agency",
-    description: "Futuristic AI-powered digital experiences.",
+    title: "SkMetaverse | AI & Web Development Company",
+    description: "Official SkMetaverse website for AI tools, web development, and futuristic digital experiences.",
     images: ["https://skmetaverse.space/og.png"],
   },
   robots: {
@@ -73,13 +74,22 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const sameAs = Object.values(siteConfig.socials).filter(Boolean);
   const orgJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "SkMetaverse",
-    url: "https://skmetaverse.space",
-    logo: "https://skmetaverse.space/logo.png",
-    sameAs: [],
+    name: siteConfig.name,
+    url: siteConfig.url,
+    logo: `${siteConfig.url}/logo.png`,
+    sameAs,
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        contactType: "sales",
+        email: siteConfig.email,
+        telephone: siteConfig.phoneE164,
+      },
+    ],
   };
 
   return (

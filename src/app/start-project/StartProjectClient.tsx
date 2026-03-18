@@ -11,6 +11,7 @@
  import Link from "next/link";
  import { startProjectServices } from "@/content/services";
  import { Turnstile } from "@/components/ui/Turnstile";
+ import { getWhatsAppUrl, siteConfig } from "@/content/site";
  
  export default function StartProjectClient() {
    const router = useRouter();
@@ -51,10 +52,10 @@
    };
  
   const supportLinks = {
-    call: { label: "Call Now", href: "tel:+918095151212" },
+    call: { label: "Call Now", href: `tel:${siteConfig.phoneE164}` },
     whatsapp: {
       label: "WhatsApp",
-      href: "https://wa.me/15551234567?text=Hi%20SkMetaverse%2C%20I%20want%20to%20start%20a%20project",
+      href: getWhatsAppUrl(),
     },
   } as const;
 
@@ -302,12 +303,12 @@
                ) : null}
                </Card>
  
-               <div className="flex flex-col sm:flex-row gap-4 justify-between">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-between">
                  <Button
                    type="button"
                    variant="ghost"
                    onClick={() => setStep(1)}
-                   className="text-muted-foreground"
+                  className="text-muted-foreground w-full sm:w-auto"
                  >
                    Back
                  </Button>

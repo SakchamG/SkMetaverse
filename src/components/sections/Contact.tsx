@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/Card";
 import { Mail, Phone, MapPin, Calendar, Send } from "lucide-react";
 import { useState } from "react";
 import { Turnstile } from "@/components/ui/Turnstile";
+import { siteConfig } from "@/content/site";
 
 export function Contact() {
   const [submitting, setSubmitting] = useState(false);
@@ -90,7 +91,11 @@ export function Contact() {
                      </div>
                      <div>
                        <div className="text-sm text-muted-foreground">Email Us</div>
-                       <div className="font-medium">contact@skmetaverse.com</div>
+                      <div className="font-medium">
+                        <a href={`mailto:${siteConfig.email}`} className="hover:text-primary transition-colors">
+                          {siteConfig.email}
+                        </a>
+                      </div>
                      </div>
                    </div>
                    <div className="flex items-center gap-4">
@@ -99,7 +104,11 @@ export function Contact() {
                      </div>
                      <div>
                        <div className="text-sm text-muted-foreground">Call Us</div>
-                       <div className="font-medium">+1 (555) 123-4567</div>
+                      <div className="font-medium">
+                        <a href={`tel:${siteConfig.phoneE164}`} className="hover:text-primary transition-colors">
+                          {siteConfig.phoneDisplay}
+                        </a>
+                      </div>
                      </div>
                    </div>
                    <div className="flex items-center gap-4">
@@ -108,7 +117,7 @@ export function Contact() {
                      </div>
                      <div>
                        <div className="text-sm text-muted-foreground">Visit Us</div>
-                       <div className="font-medium">123 Tech Avenue, Silicon Valley, CA</div>
+                      <div className="font-medium">{siteConfig.addressLine}</div>
                      </div>
                    </div>
                  </div>
@@ -122,9 +131,17 @@ export function Contact() {
                  <p className="text-muted-foreground mb-6">
                    Schedule a free 30-minute consultation with our experts to discuss your project.
                  </p>
-                 <Button variant="glow" className="w-full">
-                   Schedule via Calendly
-                 </Button>
+                {siteConfig.calendlyUrl ? (
+                  <a href={siteConfig.calendlyUrl} target="_blank" rel="noopener noreferrer">
+                    <Button variant="glow" className="w-full">
+                      Schedule via Calendly
+                    </Button>
+                  </a>
+                ) : (
+                  <Button variant="glow" className="w-full" disabled>
+                    Schedule via Calendly
+                  </Button>
+                )}
                </Card>
              </div>
           </motion.div>

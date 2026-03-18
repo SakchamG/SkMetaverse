@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { Twitter, Instagram, Linkedin, Github } from "lucide-react";
 import { servicesCatalog } from "@/content/services";
+import { getWhatsAppUrl, siteConfig } from "@/content/site";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const whatsappUrl = getWhatsAppUrl();
 
   return (
     <footer className="bg-background border-t border-white/10 pt-12 sm:pt-16 pb-8">
@@ -20,18 +22,53 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-muted-foreground mb-6 text-sm leading-relaxed">
-              Building powerful digital experiences that help businesses scale globally with cutting-edge technology.
+              Building AI tools, websites, and digital experiences that help businesses scale globally.
             </p>
             <div className="flex gap-4">
-              {[Twitter, Instagram, Linkedin, Github].map((Icon, i) => (
+              {siteConfig.socials.twitter ? (
                 <a
-                  key={i}
-                  href="#"
+                  href={siteConfig.socials.twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-primary transition-colors p-2 hover:bg-primary/10 rounded-full"
+                  aria-label="Twitter"
                 >
-                  <Icon size={20} />
+                  <Twitter size={20} />
                 </a>
-              ))}
+              ) : null}
+              {siteConfig.socials.instagram ? (
+                <a
+                  href={siteConfig.socials.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-primary transition-colors p-2 hover:bg-primary/10 rounded-full"
+                  aria-label="Instagram"
+                >
+                  <Instagram size={20} />
+                </a>
+              ) : null}
+              {siteConfig.socials.linkedin ? (
+                <a
+                  href={siteConfig.socials.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-primary transition-colors p-2 hover:bg-primary/10 rounded-full"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin size={20} />
+                </a>
+              ) : null}
+              {siteConfig.socials.github ? (
+                <a
+                  href={siteConfig.socials.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-primary transition-colors p-2 hover:bg-primary/10 rounded-full"
+                  aria-label="GitHub"
+                >
+                  <Github size={20} />
+                </a>
+              ) : null}
             </div>
           </div>
 
@@ -87,9 +124,22 @@ export function Footer() {
                 <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                 Available for new projects
               </li>
-              <li>contact@skmetaverse.com</li>
-              <li>+1 (555) 123-4567</li>
-              <li>123 Tech Avenue, Silicon Valley, CA</li>
+              <li>
+                <a className="hover:text-primary transition-colors" href={`mailto:${siteConfig.email}`}>
+                  {siteConfig.email}
+                </a>
+              </li>
+              <li>
+                <a className="hover:text-primary transition-colors" href={`tel:${siteConfig.phoneE164}`}>
+                  {siteConfig.phoneDisplay}
+                </a>
+              </li>
+              <li>
+                <a className="hover:text-primary transition-colors" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                  WhatsApp
+                </a>
+              </li>
+              <li>{siteConfig.addressLine}</li>
             </ul>
           </div>
         </div>
