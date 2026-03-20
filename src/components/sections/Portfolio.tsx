@@ -121,9 +121,9 @@ function ProjectCard({ project, index }: ProjectProps) {
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      viewport={{ once: true, margin: "-50px" }}
+      viewport={{ once: true, margin: "0px" }}
       whileHover={{ scale: 1.02, y: -5 }}
-      className="group relative flex flex-col h-full min-h-[400px] w-full rounded-3xl bg-neutral-950 border border-white/10 overflow-hidden p-8 shadow-xl hover:shadow-2xl transition-all duration-300"
+      className="group relative flex flex-col h-full min-h-[260px] md:min-h-[400px] w-full rounded-2xl md:rounded-3xl bg-neutral-950 border border-white/10 overflow-hidden p-5 md:p-8 shadow-xl hover:shadow-2xl transition-all duration-300"
     >
       {/* Subtle glow effect */}
       <div
@@ -133,34 +133,34 @@ function ProjectCard({ project, index }: ProjectProps) {
       {/* Content */}
       <div className="relative z-10 flex flex-col h-full">
 
-        <div className="flex justify-between items-start mb-6">
+        <div className="flex justify-between items-start mb-4 md:mb-6">
           <span
-            className={`inline-block px-4 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r ${project.color} text-white shadow-lg`}
+            className={`inline-block px-2.5 py-1 md:px-4 md:py-1.5 rounded-full text-[10px] md:text-xs font-semibold bg-gradient-to-r ${project.color} text-white shadow-lg line-clamp-1 max-w-[70%]`}
           >
             {project.category}
           </span>
           <motion.a
             href="#"
             whileHover={{ scale: 1.1, rotate: 45 }}
-            className="flex items-center justify-center w-11 h-11 rounded-full bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-colors"
+            className="flex items-center justify-center w-8 h-8 md:w-11 md:h-11 rounded-full bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-colors flex-shrink-0"
           >
-            <ArrowUpRight size={20} />
+            <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5" />
           </motion.a>
         </div>
 
-        <h3 className="text-3xl font-bold text-white mb-4 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-slate-400 transition-all duration-300">
+        <h3 className="text-xl md:text-3xl font-bold text-white mb-2 md:mb-4 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-slate-400 transition-all duration-300 line-clamp-2 md:line-clamp-none">
           {project.title}
         </h3>
 
-        <p className="text-slate-300 text-sm leading-relaxed mb-8 flex-grow">
+        <p className="text-slate-300 text-xs md:text-sm leading-relaxed mb-4 md:mb-8 flex-grow line-clamp-3 md:line-clamp-none">
           {project.desc}
         </p>
 
-        <div className="flex flex-wrap gap-2 mt-auto">
+        <div className="flex flex-wrap gap-1.5 md:gap-2 mt-auto overflow-hidden max-h-[24px] md:max-h-none">
           {project.tech.map((t: string) => (
             <span
               key={t}
-              className="text-xs px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 transition-colors cursor-default"
+              className="text-[9px] md:text-xs px-2 py-1 md:px-3 md:py-1.5 rounded-md md:rounded-lg bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 transition-colors cursor-default whitespace-nowrap"
             >
               {t}
             </span>
@@ -201,9 +201,11 @@ export function Portfolio() {
 
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-10">
           {projects.map((project, index) => (
-            <ProjectCard key={index} project={project} index={index} />
+            <div key={index} className={index >= 4 ? "hidden sm:block" : "col-span-1"}>
+              <ProjectCard project={project} index={index} />
+            </div>
           ))}
         </div>
 

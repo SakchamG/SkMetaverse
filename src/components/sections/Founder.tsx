@@ -48,7 +48,7 @@ export function Founder() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            viewport={{ once: false, margin: "-50px" }}
+            viewport={{ once: true, margin: "0px" }}
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
                 <span className="relative flex h-2 w-2">
@@ -127,7 +127,7 @@ export function Founder() {
                   key={col}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, margin: "-50px" }}
+                  viewport={{ once: true, margin: "0px" }}
                   transition={{ duration: 0.4, delay: col * 0.05 }}
                 >
                   <div
@@ -157,7 +157,7 @@ export function Founder() {
                 key={m.name}
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
+                viewport={{ once: true, margin: "0px" }}
                 transition={{ duration: 0.32, delay: i * 0.03 }}
               >
                 <Card

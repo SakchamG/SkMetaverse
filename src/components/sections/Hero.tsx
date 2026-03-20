@@ -90,7 +90,7 @@ export function Hero() {
       className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 group"
     >
       {/* 1. Video/Gradient Layer (Revealed by Spotlight) - Default Hidden */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden hidden sm:block">
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         {/* Shared Video Background */}
         <video
           autoPlay
@@ -145,10 +145,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden sm:hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-background to-background" />
-        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.02]" />
-      </div>
+
 
       {/* 3. Content Layer (Top - Always Visible) */}
       <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center justify-center h-full">
@@ -161,29 +158,25 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 2.4, duration: 0.8 }}
-            className="relative overflow-hidden py-1 px-4 rounded-full bg-gradient-to-r from-slate-100 via-slate-200 to-slate-100 dark:bg-none dark:bg-black/80 border border-slate-300 dark:border-white/10 text-sm font-medium text-slate-700 dark:text-white mb-6 backdrop-blur-sm shadow-[0_0_20px_rgba(148,163,184,0.6)] dark:shadow-[0_0_20px_rgba(0,0,0,0.8)] group hidden sm:inline-flex"
+            transition={{ delay: 0.1, duration: 0.5 }}
+            className="relative overflow-hidden py-1 px-4 rounded-full bg-gradient-to-r from-slate-100 via-slate-200 to-slate-100 dark:bg-none dark:bg-black/80 border border-slate-300 dark:border-white/10 text-[13px] sm:text-sm font-medium text-slate-700 dark:text-white mb-6 backdrop-blur-sm shadow-[0_0_20px_rgba(148,163,184,0.6)] dark:shadow-[0_0_30px_rgba(35,206,217,0.3)] group inline-flex"
           >
             <span className="relative z-10 flex items-center gap-2">✨ Transforming Ideas into Digital Reality</span>
             <motion.div
               animate={{ x: ["-100%", "200%"] }}
               transition={{ repeat: Infinity, duration: 2.5, ease: "linear" }}
-              className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/40 dark:via-white/10 to-transparent w-full"
+              className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/40 dark:via-white/20 to-transparent w-full"
             />
           </motion.div>
 
-          <div className="relative inline-flex overflow-hidden py-1 px-4 rounded-full bg-black/20 border border-white/10 text-sm font-medium text-foreground mb-6 sm:hidden">
-            <span className="relative z-10 flex items-center gap-2">✨ Transforming Ideas into Digital Reality</span>
-          </div>
-
-          <h1 className="text-3xl sm:text-4xl font-bold font-heading tracking-tight mb-2">
+          <h1 className="text-2xl sm:text-3xl md:text-3xl font-bold font-heading tracking-tight mb-2">
             SkMetaverse - AI & Web Development Company
           </h1>
           <p className="text-sm sm:text-base text-muted-foreground mb-7">
             Official website of SkMetaverse
           </p>
 
-          <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold font-heading tracking-tight mb-8 leading-tight min-h-[160px] sm:min-h-[140px] md:min-h-[220px] hidden sm:block">
+          <h2 className="text-[2.5rem] leading-[1.1] sm:text-5xl md:text-7xl lg:text-8xl font-bold font-heading tracking-tight mb-8 min-h-[140px] sm:min-h-[140px] md:min-h-[220px]">
             <span>
               {typingState.text1}
               {typingState.activeSegment === 1 && <Cursor />}
@@ -205,18 +198,10 @@ export function Hero() {
             {typingState.activeSegment === 5 && <Cursor />}
           </h2>
 
-          <h2 className="text-4xl font-bold font-heading tracking-tight mb-8 leading-tight sm:hidden">
-            Building Digital{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D946EF] via-[#8B5CF6] to-[#7C3AED] dark:from-[#23CED9] dark:via-[#F472B6] dark:to-[#8B5CF6]">
-              Experiences
-            </span>{" "}
-            That Power the Future
-          </h2>
-
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={typingState.activeSegment === 5 ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
             className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-lg"
           >
             We help startups and businesses build powerful websites, applications, and AI-powered digital products that scale globally.
@@ -225,7 +210,7 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={typingState.activeSegment === 5 ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Link href="/start-project">

@@ -53,7 +53,7 @@ export function Blog() {
               initial={{ opacity: 0, y: 50, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: false, margin: "-50px" }}
+              viewport={{ once: true, margin: "0px" }}
               className="group"
             >
               <Card className="p-0 overflow-hidden border-0 h-full flex flex-col card-hover-gradient border-border bg-card">

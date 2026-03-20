@@ -55,7 +55,7 @@ export function Contact() {
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            viewport={{ once: false, margin: "-50px" }}
+            viewport={{ once: true, margin: "0px" }}
           >
              <div className="space-y-8">
                <Card className="p-8">
@@ -147,7 +147,7 @@ export function Contact() {
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            viewport={{ once: false, margin: "-50px" }}
+            viewport={{ once: true, margin: "0px" }}
           >
             <Card className="p-8 h-full flex flex-col justify-center bg-card relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none transition-all duration-500 group-hover:bg-primary/10" />

@@ -65,7 +65,7 @@ export function Process() {
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
-                viewport={{ once: false, margin: "-100px" }}
+                viewport={{ once: true, margin: "0px" }}
                 className={`relative flex items-center ${
                   index % 2 === 0 ? "justify-start" : "justify-end"
                 }`}

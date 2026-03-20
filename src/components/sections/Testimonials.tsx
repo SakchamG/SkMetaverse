@@ -60,7 +60,7 @@ export function Testimonials() {
               initial={{ opacity: 0, y: 50, scale: 0.9 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: false, margin: "-50px" }}
+              viewport={{ once: true, margin: "0px" }}
               whileHover={{ y: -10 }}
               className="relative p-6 sm:p-8 rounded-3xl bg-white/5 backdrop-blur-none sm:backdrop-blur-md border border-white/10 shadow-xl group hover:bg-white/10 transition-colors"
             >
