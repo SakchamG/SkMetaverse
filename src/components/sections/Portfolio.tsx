@@ -1,9 +1,7 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import Image from "next/image";
-import { useRef } from "react";
 
 const projects = [
   {
@@ -118,112 +116,55 @@ interface ProjectProps {
 }
 
 function ProjectCard({ project, index }: ProjectProps) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const mouseX = useSpring(x, { stiffness: 500, damping: 100 });
-  const mouseY = useSpring(y, { stiffness: 500, damping: 100 });
-
-  function onMouseMove({
-    currentTarget,
-    clientX,
-    clientY,
-  }: React.MouseEvent) {
-    const { left, top } = currentTarget.getBoundingClientRect();
-
-    mouseX.set(clientX - left);
-    mouseY.set(clientY - top);
-  }
-
-  const rotateX = useTransform(mouseY, [0, 400], [5, -5]);
-  const rotateY = useTransform(mouseX, [0, 600], [-5, 5]);
-
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      viewport={{ once: false, margin: "-50px" }}
-      onMouseMove={onMouseMove}
-      onMouseLeave={() => {
-        mouseX.set(0);
-        mouseY.set(0);
-      }}
-      style={{
-        rotateX,
-        rotateY,
-        transformStyle: "preserve-3d",
-        transformPerspective: 1000,
-      }}
-      className="group relative h-[500px] w-full rounded-3xl bg-slate-100 dark:bg-neutral-900 border border-slate-200 dark:border-white/10 overflow-hidden"
+      viewport={{ once: true, margin: "-50px" }}
+      whileHover={{ scale: 1.02, y: -5 }}
+      className="group relative flex flex-col h-full min-h-[400px] w-full rounded-3xl bg-neutral-950 border border-white/10 overflow-hidden p-8 shadow-xl hover:shadow-2xl transition-all duration-300"
     >
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0 h-full w-full overflow-hidden rounded-3xl">
-        <motion.div className="h-full w-full transition-transform duration-700 group-hover:scale-110">
-          <Image
-            src={project.image}
-            alt={project.title}
-            fill
-            className="object-cover opacity-90 group-hover:opacity-100"
-          />
-        </motion.div>
-
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80" />
-      </div>
+      {/* Subtle glow effect */}
+      <div
+        className={`absolute -top-24 -right-24 w-64 h-64 bg-gradient-to-br ${project.color} opacity-20 blur-3xl rounded-full transition-opacity duration-500 group-hover:opacity-40`}
+      />
 
       {/* Content */}
-      <div className="absolute bottom-0 left-0 w-full p-6 md:p-8 z-20 translate-y-4 transition-transform duration-500 group-hover:translate-y-0">
-        <div className="relative overflow-hidden rounded-2xl bg-white/10 dark:bg-black/40 backdrop-blur-xl border border-white/20 p-6 shadow-2xl">
+      <div className="relative z-10 flex flex-col h-full">
 
-          <div
-            className={`absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br ${project.color} opacity-20 blur-3xl rounded-full`}
-          />
+        <div className="flex justify-between items-start mb-6">
+          <span
+            className={`inline-block px-4 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r ${project.color} text-white shadow-lg`}
+          >
+            {project.category}
+          </span>
+          <motion.a
+            href="#"
+            whileHover={{ scale: 1.1, rotate: 45 }}
+            className="flex items-center justify-center w-11 h-11 rounded-full bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-colors"
+          >
+            <ArrowUpRight size={20} />
+          </motion.a>
+        </div>
 
-          <div className="relative z-10">
+        <h3 className="text-3xl font-bold text-white mb-4 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-slate-400 transition-all duration-300">
+          {project.title}
+        </h3>
 
-            <div className="flex justify-between items-start mb-4">
+        <p className="text-slate-300 text-sm leading-relaxed mb-8 flex-grow">
+          {project.desc}
+        </p>
 
-              <div>
-                <span
-                  className={`inline-block px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${project.color} text-white mb-3`}
-                >
-                  {project.category}
-                </span>
-
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">
-                  {project.title}
-                </h3>
-              </div>
-
-              <motion.a
-                href="#"
-                whileHover={{ scale: 1.1, rotate: 45 }}
-                className="p-3 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/10"
-              >
-                <ArrowUpRight size={22} />
-              </motion.a>
-
-            </div>
-
-            <p className="text-slate-200 text-sm md:text-base mb-6 line-clamp-2 group-hover:line-clamp-none">
-              {project.desc}
-            </p>
-
-            <div className="flex flex-wrap gap-2">
-              {project.tech.map((t: string) => (
-                <span
-                  key={t}
-                  className="text-xs px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-slate-300"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
-
-          </div>
+        <div className="flex flex-wrap gap-2 mt-auto">
+          {project.tech.map((t: string) => (
+            <span
+              key={t}
+              className="text-xs px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 transition-colors cursor-default"
+            >
+              {t}
+            </span>
+          ))}
         </div>
       </div>
     </motion.div>

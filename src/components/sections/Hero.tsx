@@ -17,13 +17,21 @@ export function Hero() {
 
   useEffect(() => {
     const isCoarse = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
-    if (isCoarse) {
-      return;
-    }
     const fullText1 = "Building Digital ";
     const fullText2 = "Experiences";
     const fullText3 = " That ";
     const fullText4 = "Power the Future";
+
+    if (isCoarse) {
+      setTypingState({
+        text1: fullText1,
+        text2: fullText2,
+        text3: fullText3,
+        text4: fullText4,
+        activeSegment: 5,
+      });
+      return;
+    }
 
     let idx = 0;
     let seg = 1;
@@ -77,33 +85,9 @@ export function Hero() {
     />
   );
 
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const springConfig = { damping: 40, stiffness: 300 };
-  const smoothMouseX = useSpring(mouseX, springConfig);
-  const smoothMouseY = useSpring(mouseY, springConfig);
-  const rafId = useRef<number | null>(null);
-  const pending = useRef<{ x: number; y: number } | null>(null);
-
-  function handleMouseMove({ currentTarget, clientX, clientY }: MouseEvent) {
-    const { left, top } = currentTarget.getBoundingClientRect();
-    pending.current = { x: clientX - left, y: clientY - top };
-    if (rafId.current == null) {
-      rafId.current = requestAnimationFrame(() => {
-        if (pending.current) {
-          mouseX.set(pending.current.x);
-          mouseY.set(pending.current.y);
-        }
-        rafId.current = null;
-      });
-    }
-  }
-
   return (
     <section
       className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 group"
-      onMouseMove={handleMouseMove}
     >
       {/* 1. Video/Gradient Layer (Revealed by Spotlight) - Default Hidden */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden hidden sm:block">
@@ -144,8 +128,8 @@ export function Hero() {
         {/* Light Mode Overlays */}
         <div className="absolute inset-0 block dark:hidden">
           {/* Light fade to ensure text readability over video */}
-          <div className="absolute inset-0 bg-white/50" />
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-100/40 via-purple-100/40 to-pink-100/40 mix-blend-overlay" />
+          <div className="absolute inset-0 bg-white/90 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-100/50 via-purple-100/50 to-pink-100/50" />
 
           {/* Vibrant Orbs for Light Mode */}
           <motion.div
@@ -166,56 +150,6 @@ export function Hero() {
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.02]" />
       </div>
 
-      {/* 2. Solid Overlay Layer (Masked by Cursor to Reveal Background) - DARK MODE ONLY */}
-      <motion.div
-        className="absolute inset-0 z-10 bg-background pointer-events-none hidden sm:block dark:block"
-        style={{
-          maskImage: useMotionTemplate`radial-gradient(800px circle at ${smoothMouseX}px ${smoothMouseY}px, transparent 0%, transparent 38%, rgba(0,0,0,0.4) 39%, black 41%)`,
-          WebkitMaskImage: useMotionTemplate`radial-gradient(800px circle at ${smoothMouseX}px ${smoothMouseY}px, transparent 0%, transparent 38%, rgba(0,0,0,0.4) 39%, black 41%)`,
-          willChange: "mask-image, -webkit-mask-image",
-        }}
-      >
-        {/* Subtle pattern on the solid overlay */}
-        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03]" />
-      </motion.div>
-
-      {/* 3D Inner Lens Effect Layer (Follows cursor, adds spherical edge inner shine) - DARK MODE */}
-      <motion.div
-        className="absolute inset-0 z-[11] shadow-[inset_0_0_80px_rgba(255,255,255,0.2)] rounded-full pointer-events-none hidden sm:block dark:block mix-blend-overlay opacity-30"
-        style={{
-          left: useMotionTemplate`calc(${smoothMouseX}px - 320px)`,
-          top: useMotionTemplate`calc(${smoothMouseY}px - 320px)`,
-          width: "640px",
-          height: "640px",
-          background: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 60%)",
-          willChange: "left, top",
-        }}
-      />
-
-      {/* 2b. Solid Overlay Layer for LIGHT MODE (masked spotlight, softer) */}
-      <motion.div
-        className="absolute inset-0 z-10 pointer-events-none hidden sm:block dark:hidden"
-        style={{
-          backgroundColor: "rgba(255,255,255,0.85)",
-          maskImage: useMotionTemplate`radial-gradient(800px circle at ${smoothMouseX}px ${smoothMouseY}px, transparent 0%, transparent 38%, rgba(0,0,0,0.2) 39%, black 41%)`,
-          WebkitMaskImage: useMotionTemplate`radial-gradient(800px circle at ${smoothMouseX}px ${smoothMouseY}px, transparent 0%, transparent 38%, rgba(0,0,0,0.2) 39%, black 41%)`,
-          willChange: "mask-image, -webkit-mask-image",
-        }}
-      />
-      
-      {/* 3D Inner Lens Effect Layer - LIGHT MODE */}
-      <motion.div
-        className="absolute z-[11] shadow-[inset_0_0_60px_rgba(0,0,0,0.15)] rounded-full pointer-events-none hidden sm:block dark:hidden"
-        style={{
-          left: useMotionTemplate`calc(${smoothMouseX}px - 320px)`,
-          top: useMotionTemplate`calc(${smoothMouseY}px - 320px)`,
-          width: "640px",
-          height: "640px",
-          background: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6) 0%, rgba(0,0,0,0.05) 60%)",
-          willChange: "left, top",
-        }}
-      />
-
       {/* 3. Content Layer (Top - Always Visible) */}
       <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center justify-center h-full">
         <motion.div
@@ -228,7 +162,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 2.4, duration: 0.8 }}
-            className="relative inline-flex overflow-hidden py-1 px-4 rounded-full bg-gradient-to-r from-slate-100 via-slate-200 to-slate-100 dark:bg-none dark:bg-black/80 border border-slate-300 dark:border-white/10 text-sm font-medium text-slate-700 dark:text-white mb-6 backdrop-blur-sm shadow-[0_0_20px_rgba(148,163,184,0.6)] dark:shadow-[0_0_20px_rgba(0,0,0,0.8)] group hidden sm:inline-flex"
+            className="relative overflow-hidden py-1 px-4 rounded-full bg-gradient-to-r from-slate-100 via-slate-200 to-slate-100 dark:bg-none dark:bg-black/80 border border-slate-300 dark:border-white/10 text-sm font-medium text-slate-700 dark:text-white mb-6 backdrop-blur-sm shadow-[0_0_20px_rgba(148,163,184,0.6)] dark:shadow-[0_0_20px_rgba(0,0,0,0.8)] group hidden sm:inline-flex"
           >
             <span className="relative z-10 flex items-center gap-2">✨ Transforming Ideas into Digital Reality</span>
             <motion.div

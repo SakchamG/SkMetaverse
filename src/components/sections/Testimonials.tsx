@@ -80,7 +80,7 @@ export function Testimonials() {
                 <div className="font-bold text-foreground text-lg">{testimonial.name}</div>
                 <div className="text-sm text-muted-foreground mt-1">
                   <span className="text-primary/90">{testimonial.title}</span>
-                  <span className="mx-2 text-white/20">•</span>
+                  <span className="mx-2 text-foreground/20">•</span>
                   {testimonial.companyUrl ? (
                     <a
                       href={testimonial.companyUrl}

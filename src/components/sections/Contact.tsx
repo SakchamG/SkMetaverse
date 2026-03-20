@@ -2,60 +2,36 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
-import { Textarea } from "@/components/ui/Textarea";
 import { Card } from "@/components/ui/Card";
-import { Mail, Phone, MapPin, Calendar, Send } from "lucide-react";
+import { DatePicker } from "@/components/ui/DatePicker";
+import { Mail, Phone, MapPin, Calendar, ArrowRight, MessageCircle } from "lucide-react";
+import { getWhatsAppUrl, siteConfig } from "@/content/site";
+import Link from "next/link";
 import { useState } from "react";
-import { Turnstile } from "@/components/ui/Turnstile";
-import { siteConfig } from "@/content/site";
 
 export function Contact() {
-  const [submitting, setSubmitting] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState("");
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    projectType: "",
-    budget: "",
-    message: "",
-  });
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedTime, setSelectedTime] = useState("");
 
-  const submit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
-    if (siteKey && !captchaToken) {
-      alert("Please complete the captcha.");
-      return;
-    }
-    setSubmitting(true);
-    fetch("/api/enquiry", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        source: "contact",
-        name: formData.name,
-        email: formData.email,
-        company: formData.company,
-        budget: formData.budget,
-        details: `Project Type: ${formData.projectType}\nMessage: ${formData.message}`,
-        captchaToken,
-      }),
-    })
-      .then(async (r) => {
-        if (!r.ok) {
-          const j = await r.json().catch(() => null);
-          throw new Error(j?.error || "Failed to submit enquiry");
-        }
-        setFormData({ name: "", email: "", company: "", projectType: "", budget: "", message: "" });
-        setCaptchaToken("");
-        alert("Message sent! We'll get back to you soon.");
-      })
-      .catch(() => {
-        alert("Could not send right now. Please try again later.");
-      })
-      .finally(() => setSubmitting(false));
+  const handleScheduleClick = () => {
+    if (!selectedDate || !selectedTime) return;
+    const digits = siteConfig.whatsappE164.replace(/[^\d]/g, "");
+    
+    // Format the date properly for message
+    const dateStr = selectedDate.toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    });
+    
+    const text = encodeURIComponent(
+      `Hi ${siteConfig.name}, I would like to schedule a meeting on ${dateStr} at ${selectedTime}.`
+    );
+    window.open(`https://wa.me/${digits}?text=${text}`, "_blank");
+    setShowDatePicker(false);
+    setSelectedDate(null);
+    setSelectedTime("");
   };
 
   return (
@@ -131,96 +107,79 @@ export function Contact() {
                  <p className="text-muted-foreground mb-6">
                    Schedule a free 30-minute consultation with our experts to discuss your project.
                  </p>
-                {siteConfig.calendlyUrl ? (
-                  <a href={siteConfig.calendlyUrl} target="_blank" rel="noopener noreferrer">
-                    <Button variant="glow" className="w-full">
-                      Schedule via Calendly
-                    </Button>
-                  </a>
-                ) : (
-                  <Button variant="glow" className="w-full" disabled>
-                    Schedule via Calendly
-                  </Button>
-                )}
+                 {!showDatePicker ? (
+                   <Button variant="glow" className="w-full" onClick={() => setShowDatePicker(true)}>
+                     Pick a Date & Time
+                   </Button>
+                 ) : (
+                   <div className="space-y-6 animate-in fade-in slide-in-from-top-2">
+                     <DatePicker 
+                       date={selectedDate} 
+                       setDate={setSelectedDate} 
+                       time={selectedTime} 
+                       setTime={setSelectedTime} 
+                     />
+                     <div className="flex gap-4">
+                       <Button 
+                         variant="outline" 
+                         className="w-1/3 border-border hover:bg-card-hover" 
+                         onClick={() => setShowDatePicker(false)}
+                       >
+                         Cancel
+                       </Button>
+                       <Button 
+                         variant="glow" 
+                         className="w-2/3"
+                         disabled={!selectedDate || !selectedTime}
+                         onClick={handleScheduleClick}
+                       >
+                         Confirm Meeting
+                       </Button>
+                     </div>
+                   </div>
+                 )}
                </Card>
              </div>
           </motion.div>
 
-          {/* Contact Form */}
+          {/* Quick Connect Actions */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: false, margin: "-50px" }}
           >
-            <Card className="p-8">
-              <h3 className="text-xl font-bold font-heading mb-6">Send us a message</h3>
-              <form className="space-y-6" onSubmit={submit}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Name</label>
-                    <Input
-                      required
-                      placeholder="Your Name"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    />
+            <Card className="p-8 h-full flex flex-col justify-center bg-card relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none transition-all duration-500 group-hover:bg-primary/10" />
+              
+              <div className="relative z-10">
+                <h3 className="text-2xl md:text-3xl font-bold font-heading mb-4">Start Your Journey</h3>
+                <p className="text-muted-foreground mb-8 text-lg leading-relaxed">
+                  Skip the traditional forms. Connect with our team instantly to discuss your vision, requirements, and get started on building your digital reality.
+                </p>
+                
+                <div className="space-y-4">
+                  <Link href="/start-project" className="block">
+                    <Button variant="gradient" size="lg" className="w-full text-lg h-14 group/btn">
+                      Start a Project
+                      <ArrowRight className="ml-2 w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+                    </Button>
+                  </Link>
+                  
+                  <div className="relative flex items-center py-4">
+                    <div className="flex-grow border-t border-border"></div>
+                    <span className="flex-shrink-0 mx-4 text-muted-foreground text-sm uppercase tracking-wider font-medium">or</span>
+                    <div className="flex-grow border-t border-border"></div>
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Email</label>
-                    <Input
-                      required
-                      placeholder="your@email.com"
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    />
-                  </div>
+                  
+                  <a href={getWhatsAppUrl()} target="_blank" rel="noopener noreferrer" className="block">
+                    <Button variant="outline" size="lg" className="w-full text-lg h-14 border-border hover:bg-white/5 hover:border-primary/30 group/wa shadow-sm transition-all duration-300">
+                      <MessageCircle className="mr-2 w-5 h-5 text-[#25D366] group-hover/wa:scale-110 transition-transform" />
+                      Chat on WhatsApp
+                    </Button>
+                  </a>
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Company</label>
-                  <Input
-                    placeholder="Your Company Name"
-                    value={formData.company}
-                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                  />
-                </div>
-                <div className="space-y-2">
-                    <label className="text-sm font-medium">Project Type</label>
-                    <Input
-                      placeholder="e.g. Web Development, Mobile App, AI"
-                      value={formData.projectType}
-                      onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
-                    />
-                </div>
-                <div className="space-y-2">
-                    <label className="text-sm font-medium">Budget Range</label>
-                    <Input
-                      placeholder="e.g. $5k - $10k"
-                      value={formData.budget}
-                      onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                    />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Message</label>
-                  <Textarea
-                    required
-                    placeholder="Tell us about your project..."
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  />
-                </div>
-                {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ? (
-                  <Turnstile
-                    siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
-                    onToken={setCaptchaToken}
-                  />
-                ) : null}
-                <Button variant="glow" className="w-full" size="lg" type="submit" disabled={submitting}>
-                  {submitting ? "Sending..." : "Send Message"}
-                  <Send className="ml-2 w-4 h-4" />
-                </Button>
-              </form>
+              </div>
             </Card>
           </motion.div>
         </div>

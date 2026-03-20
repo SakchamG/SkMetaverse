@@ -29,7 +29,7 @@ export function Process() {
   });
 
   return (
-    <section id="process" className="py-32 bg-background relative overflow-hidden" ref={containerRef}>
+    <section id="process" className="py-32 bg-background relative overflow-hidden" ref={containerRef} style={{ position: "relative" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-24">
           <motion.span 
@@ -83,7 +83,9 @@ export function Process() {
                       }`} />
                       
                       <Card className="p-6 card-hover-gradient border-border bg-card relative overflow-hidden group-hover:-translate-y-2 transition-transform duration-300">
-                         <div className={`absolute top-0 right-0 p-4 opacity-10 font-bold text-6xl font-heading transition-opacity group-hover:opacity-20`}>
+                         <div className={`absolute top-0 p-4 opacity-[0.05] font-bold text-6xl font-heading transition-opacity group-hover:opacity-[0.08] ${
+                           index % 2 === 0 ? "left-0" : "right-0"
+                         }`}>
                            0{index + 1}
                          </div>
                          <div className={`w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 text-primary ${
