@@ -4,14 +4,14 @@ import { motion } from "framer-motion";
 import { Activity, Aperture, BarChart, Command, Cpu, Hexagon, Layers, Zap } from "lucide-react";
 
 const brands = [
-  { name: "ACME Corp", icon: Command },
-  { name: "Quantum", icon: Hexagon },
-  { name: "NextGen", icon: Layers },
-  { name: "Apex", icon: Aperture },
-  { name: "Vertex", icon: Cpu },
-  { name: "Pulse", icon: Activity },
-  { name: "Forge", icon: Zap },
-  { name: "Stratos", icon: BarChart },
+  { name: "Skmetaverse", icon: Command },
+  { name: "Skmetaverse", icon: Hexagon },
+  { name: "Skmetaverse", icon: Layers },
+  { name: "Skmetaverse", icon: Aperture },
+  { name: "Skmetaverse", icon: Cpu },
+  { name: "Skmetaverse", icon: Activity },
+  { name: "Skmetaverse", icon: Zap },
+  { name: "Skmetaverse", icon: BarChart },
 ];
 
 export function TrustBar() {
@@ -25,7 +25,7 @@ export function TrustBar() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none opacity-50 dark:opacity-100" />
 
       <div className="max-w-7xl mx-auto px-4 relative z-10 w-full flex flex-col items-center">
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -33,10 +33,10 @@ export function TrustBar() {
         >
           Trusted by innovative companies worldwide
         </motion.p>
-        
+
         {/* Marquee Container with edge fading masks */}
         <div className="w-full overflow-hidden relative" style={{ maskImage: 'linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%)', WebkitMaskImage: 'linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%)' }}>
-          <motion.div 
+          <motion.div
             animate={{ x: ["0%", "-50%"] }}
             transition={{ ease: "linear", duration: 40, repeat: Infinity }}
             className="flex items-center w-max gap-12 md:gap-24 pr-12 md:pr-24"
@@ -44,8 +44,8 @@ export function TrustBar() {
             {duplicatedBrands.map((brand, i) => {
               const Icon = brand.icon;
               return (
-                <div 
-                  key={`${brand.name}-${i}`} 
+                <div
+                  key={`${brand.name}-${i}`}
                   className="flex items-center gap-3 text-muted-foreground opacity-60 hover:opacity-100 hover:text-primary transition-all duration-300 cursor-pointer group"
                 >
                   <Icon className="w-8 h-8 md:w-10 md:h-10 group-hover:scale-110 transition-transform duration-300" strokeWidth={1.5} />
