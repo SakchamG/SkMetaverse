@@ -1,17 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Activity, Aperture, BarChart, Command, Cpu, Hexagon, Layers, Zap } from "lucide-react";
+import Image from "next/image";
 
 const brands = [
-  { name: "Skmetaverse", icon: Command },
-  { name: "Skmetaverse", icon: Hexagon },
-  { name: "Skmetaverse", icon: Layers },
-  { name: "Skmetaverse", icon: Aperture },
-  { name: "Skmetaverse", icon: Cpu },
-  { name: "Skmetaverse", icon: Activity },
-  { name: "Skmetaverse", icon: Zap },
-  { name: "Skmetaverse", icon: BarChart },
+  { name: "Skmetaverse", },
+  { name: "Skmetaverse", },
+  { name: "Skmetaverse", },
 ];
 
 export function TrustBar() {
@@ -31,24 +26,29 @@ export function TrustBar() {
           viewport={{ once: true }}
           className="text-xs md:text-sm font-semibold text-muted-foreground mb-12 uppercase tracking-[0.3em]"
         >
-          Trusted by innovative companies worldwide
+          Skmetaverse — Empowering Digital Realities
         </motion.p>
 
         {/* Marquee Container with edge fading masks */}
         <div className="w-full overflow-hidden relative" style={{ maskImage: 'linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%)', WebkitMaskImage: 'linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%)' }}>
           <motion.div
             animate={{ x: ["0%", "-50%"] }}
-            transition={{ ease: "linear", duration: 40, repeat: Infinity }}
+            transition={{ ease: "linear", duration: 35, repeat: Infinity }}
             className="flex items-center w-max gap-12 md:gap-24 pr-12 md:pr-24"
           >
             {duplicatedBrands.map((brand, i) => {
-              const Icon = brand.icon;
               return (
                 <div
                   key={`${brand.name}-${i}`}
                   className="flex items-center gap-3 text-muted-foreground opacity-60 hover:opacity-100 hover:text-primary transition-all duration-300 cursor-pointer group"
                 >
-                  <Icon className="w-8 h-8 md:w-10 md:h-10 group-hover:scale-110 transition-transform duration-300" strokeWidth={1.5} />
+                  <Image
+                    src="/logo.png"
+                    alt="Skmetaverse Logo"
+                    width={40}
+                    height={40}
+                    className="w-8 h-8 md:w-10 md:h-10 group-hover:scale-110 transition-transform duration-300 object-contain rounded-full"
+                  />
                   <span className="text-xl md:text-2xl font-bold font-heading tracking-tight">{brand.name}</span>
                 </div>
               );
