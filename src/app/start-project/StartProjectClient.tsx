@@ -85,9 +85,10 @@
          alert("Project request submitted! We will contact you shortly.");
          router.push("/");
        })
-       .catch(() => {
-         alert("Could not submit right now. Please try again or use Call/WhatsApp.");
-       })
+       .catch((e: any) => {
+          const msg = e && e.message ? e.message : "";
+          alert(msg && msg !== "Failed to submit enquiry" ? msg : "Could not submit right now. Please try again or use Call/WhatsApp.");
+        })
        .finally(() => {
          setSubmitting(false);
          setCaptchaToken("");

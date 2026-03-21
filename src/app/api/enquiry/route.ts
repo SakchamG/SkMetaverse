@@ -175,7 +175,8 @@ function normalizePrivateKey(input: string) {
        validated.value.budget,
        validated.value.timeline,
        validated.value.location,
-       validated.value.services.join(", "),
+        validated.value.tech,
+        validated.value.services.join(", "),
        validated.value.details,
      ];
  

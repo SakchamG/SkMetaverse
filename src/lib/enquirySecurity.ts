@@ -26,7 +26,13 @@ export function isOriginAllowed(headers: Headers) {
   if (!allowed) return true;
   const origin = headers.get("origin")?.trim();
   if (!origin) return false;
-  return allowed.includes(origin);
+  if (allowed.includes(origin)) return true;
+
+  const stripped = origin.replace(/^https?:\/\/www\./, 'https://');
+  if (allowed.includes(stripped)) return true;
+
+  const added = origin.replace(/^https?:\/\//, 'https://www.');
+  return allowed.includes(added);
 }
 
 export function isApiKeyValid(headers: Headers) {
@@ -75,6 +81,7 @@ export type EnquiryPayload = {
   budget: string;
   timeline: string;
   location: string;
+  tech: string;
   services: string[];
   details: string;
   captchaToken: string;
@@ -93,6 +100,7 @@ export function validateEnquiryPayload(input: unknown): { ok: true; value: Enqui
   const budget = normalizeText(obj.budget, 40);
   const timeline = normalizeText(obj.timeline, 40);
   const location = normalizeText(obj.location, 120);
+  const tech = normalizeText(obj.tech, 120);
   const details = normalizeText(obj.details, 2000);
   const services = sanitizeServices(obj.services);
   const captchaToken = normalizeText(obj.captchaToken, 4096);
@@ -113,6 +121,7 @@ export function validateEnquiryPayload(input: unknown): { ok: true; value: Enqui
       budget,
       timeline,
       location,
+      tech,
       services,
       details,
       captchaToken,
