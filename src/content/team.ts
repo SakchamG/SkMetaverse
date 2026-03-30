@@ -5,19 +5,24 @@ export type PersonProfile = {
 };
 
 export const teamMembers: PersonProfile[] = [
-  { 
-    name: "Saksham", 
-    role: "CEO \ FSD \ Consultant", 
-    imageSrc: "/founder.jpeg" 
+  {
+    name: "Saksham",
+    role: "CEO \ FSD \ Consultant",
+    imageSrc: "/founder.jpeg"
   },
-  { 
-    name: "Jevith", 
-    role: "Marketing Lead \ AI Animation", 
-    imageSrc: "/jevith.jpeg" 
+  {
+    name: "Jevith",
+    role: "Marketing Lead \ AI Animation \ Content Creator",
+    imageSrc: "/jevith.jpeg"
   },
-  { 
-    name: "Vikas", 
-    role: "FSD \ AI ML ", 
-    imageSrc: "/Vikas.jpeg" 
+  {
+    name: "Vikas",
+    role: "FSD \ AI ML ",
+    imageSrc: "/Vikas.jpeg"
+  },
+  {
+    name: "Nahed",
+    role: "Desinger \ Video Editor \ Photo Editor ",
+    imageSrc: "/nahed.jpeg"
   }
 ];
