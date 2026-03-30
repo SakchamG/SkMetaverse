@@ -11,23 +11,8 @@ export function Founder() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const team = teamMembers;
-  const [base, setBase] = useState(0);
-  const [paused, setPaused] = useState(false);
   const [selected, setSelected] = useState<typeof teamMembers[number] | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
-  const next = () => setBase((b) => (b + 1) % team.length);
-  useEffect(() => {
-    const mq = window.matchMedia("(hover: none) and (pointer: coarse)");
-    const apply = () => setIsMobile(mq.matches);
-    apply();
-    mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
-  }, []);
-  useEffect(() => {
-    if (paused || isMobile) return;
-    const id = setInterval(() => setBase((b) => (b + 1) % team.length), 3500);
-    return () => clearInterval(id);
-  }, [paused, isMobile, team.length]);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setSelected(null);
@@ -101,55 +86,36 @@ export function Founder() {
               <span className="text-primary font-medium tracking-wider uppercase text-sm">Core Team</span>
               <h3 className="text-2xl sm:text-3xl md:text-5xl font-bold font-heading mt-2">Meet the People</h3>
             </div>
-            <div className="hidden sm:flex gap-3">
-              <button
-                onClick={() => setPaused((p) => !p)}
-                className="h-10 px-4 rounded-full border border-border hover:bg-primary/10 transition text-sm"
-                aria-label="Toggle auto slide"
-              >
-                {paused ? "Play" : "Stop"}
-              </button>
-              <button
-                onClick={next}
-                className="h-10 w-10 rounded-full border border-border hover:bg-primary/10 transition"
-                aria-label="Next card"
-              >
-                ›
-              </button>
-            </div>
           </div>
 
           <div className="hidden sm:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[0,1,2].map((col) => {
-              const m = team[(base + col) % team.length];
-              return (
-                <motion.div
-                  key={col}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "0px" }}
-                  transition={{ duration: 0.4, delay: col * 0.05 }}
+            {team.map((m, i) => (
+              <motion.div
+                key={m.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "0px" }}
+                transition={{ duration: 0.4, delay: i * 0.05 }}
+              >
+                <div
+                  className="neon-card h-[22rem] rounded-2xl cursor-pointer"
+                  onClick={() => setSelected(m)}
+                  role="button"
+                  tabIndex={0}
                 >
-                  <div
-                    className="neon-card h-[22rem] rounded-2xl cursor-pointer"
-                    onClick={() => setSelected(m)}
-                    role="button"
-                    tabIndex={0}
-                  >
-                    <div className="neon-inner">
-                      <div className="relative h-full w-full">
-                        <Image src={m.imageSrc} alt={m.name} fill className="object-cover" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80" />
-                        <div className="absolute bottom-4 left-4 right-4 text-white">
-                          <div className="text-xl font-bold">{m.name}</div>
-                          <div className="text-sm text-white/80 drop-shadow-sm">{m.role}</div>
-                        </div>
+                  <div className="neon-inner">
+                    <div className="relative h-full w-full">
+                      <Image src={m.imageSrc} alt={m.name} fill className="object-cover" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80" />
+                      <div className="absolute bottom-4 left-4 right-4 text-white">
+                        <div className="text-xl font-bold">{m.name}</div>
+                        <div className="text-sm text-white/80 drop-shadow-sm">{m.role}</div>
                       </div>
                     </div>
                   </div>
-                </motion.div>
-              );
-            })}
+                </div>
+              </motion.div>
+            ))}
           </div>
           <div className="sm:hidden grid grid-cols-2 gap-4">
             {team.map((m, i) => (

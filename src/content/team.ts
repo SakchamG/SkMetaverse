@@ -19,20 +19,5 @@ export const teamMembers: PersonProfile[] = [
     name: "Vikas", 
     role: "FSD \ AI ML ", 
     imageSrc: "/Vikas.jpeg" 
-  },
-  { 
-    name: "Nahed", 
-    role: "Designer", 
-    imageSrc: "/Nahed.jpeg" 
-  },
-  { 
-    name: "Zayed", 
-    role: "AI ML \ FSD ", 
-    imageSrc: "/zayed.jpeg" 
-  },
-  { 
-    name: "Tanishq Goyal", 
-    role: "Designer", 
-    imageSrc: "/Tk.jpeg" 
-  },
+  }
 ];

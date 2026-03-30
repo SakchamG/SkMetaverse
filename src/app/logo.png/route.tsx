@@ -12,7 +12,7 @@ export async function GET() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "linear-gradient(135deg, #000000ff 0%, #8B5CF6 100%)",
+          background: "linear-gradient(135deg, #23CED9 0%, #8B5CF6 100%)",
         }}
       >
         <div
